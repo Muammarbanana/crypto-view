@@ -10,7 +10,7 @@ class CryptoWatchlistConnected extends CryptoWatchlistState {}
 
 class CryptoWatchlistMessageReceived extends CryptoWatchlistState {
   CryptoWatchlistMessageReceived(this.message);
-  final String message;
+  final CryptoWebsocketResponse message;
 }
 
 class CryptoWatchlistDisconnected extends CryptoWatchlistState {}

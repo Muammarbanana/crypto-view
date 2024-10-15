@@ -15,7 +15,7 @@ class CryptoWatchlistBloc
     on<CryptoWatchlistReceiveMessageTriggered>(_onReceiveMessageTriggered);
   }
   final CryptoWatchlistRepository repository;
-  StreamSubscription<String>? _messagesSubscription;
+  StreamSubscription<CryptoWebsocketResponse>? _messagesSubscription;
 
   Future<void> _onConnectTriggered(
     CryptoWatchlistConnectTriggered event,

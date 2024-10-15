@@ -32,17 +32,23 @@ class _WatchlistPageState extends State<WatchlistPage> {
       create: (context) => _cryptoWatchlistBloc,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('WebSocket Example'),
+          title: const Text('Crypto View'),
         ),
         body: BlocConsumer<CryptoWatchlistBloc, CryptoWatchlistState>(
           listener: (context, state) {
-            if (state is CryptoWatchlistMessageReceived) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('New message: ${state.message}')),
-              );
-            } else if (state is CryptoWatchlistError) {
+            if (state is CryptoWatchlistError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Error: ${state.error}')),
+              );
+            }
+            if (state is CryptoWatchlistConnected) {
+              _cryptoWatchlistBloc.add(
+                CryptoWatchlistSendMessageTriggered(
+                  const WebSocketMessageParams(
+                    action: 'subscribe',
+                    symbols: ['BTC-USD', 'ETH-USD'],
+                  ),
+                ),
               );
             }
           },
@@ -50,29 +56,21 @@ class _WatchlistPageState extends State<WatchlistPage> {
             if (state is CryptoWatchlistConnecting) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is CryptoWatchlistConnected ||
-                state is CryptoWatchlistMessageReceived) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Connected to WebSocket'),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<CryptoWatchlistBloc>().add(
-                            CryptoWatchlistSendMessageTriggered(
-                              const WebSocketMessageParams(
-                                action: 'subscribe',
-                                symbols: ['BTC-USD', 'ETH-USD'],
-                              ),
-                            ),
-                          );
-                    },
-                    child: const Text('Send Message'),
-                  ),
-                ],
-              );
-            } else if (state is CryptoWatchlistDisconnected) {
-              return const Center(
-                child: Text('Disconnected from WebSocket'),
+                state is CryptoWatchlistMessageReceived ||
+                state is CryptoWatchlistDisconnected) {
+              return Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: CryptoChartWidget(
+                        cryptoWatchlistBloc: _cryptoWatchlistBloc,
+                      ),
+                    ),
+                  ],
+                ),
               );
             } else if (state is CryptoWatchlistError) {
               return Center(

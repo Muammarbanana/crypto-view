@@ -13,5 +13,5 @@ class CryptoWatchlistDisconnectTriggered extends CryptoWatchlistEvent {}
 
 class CryptoWatchlistReceiveMessageTriggered extends CryptoWatchlistEvent {
   CryptoWatchlistReceiveMessageTriggered(this.message);
-  final String message;
+  final CryptoWebsocketResponse message;
 }

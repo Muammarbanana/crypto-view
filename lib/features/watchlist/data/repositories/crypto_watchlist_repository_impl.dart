@@ -6,7 +6,8 @@ class CryptoWatchlistRepositoryImpl implements CryptoWatchlistRepository {
   final CryptoWatchlistRemoteDatasource dataSource;
 
   @override
-  Stream<String> get messagesStream => dataSource.messagesStream;
+  Stream<CryptoWebsocketResponse> get messagesStream =>
+      dataSource.messagesStream;
 
   @override
   Future<void> connectToWebSocket() async {
