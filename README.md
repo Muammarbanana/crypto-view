@@ -3,6 +3,8 @@
 
 A simple Flutter application that tracks cryptocurrency prices and provides live updates. The app displays real-time price data and a line chart for Ethereum (ETH-USD), along with a watchlist for other cryptocurrencies like Bitcoin (BTC-USD).
 
+/App_screenshot.jpeg![image](https://github.com/user-attachments/assets/b252f1c7-240e-4d8d-8986-bf1cba916727)
+
 ## Features
 
 - Live cryptocurrency price updates
