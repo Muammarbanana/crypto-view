@@ -31,7 +31,7 @@ class _CryptoChartWidgetState extends State<CryptoChartWidget> {
         }
       },
       builder: (context, state) {
-        if (state is CryptoWatchlistMessageReceived) {
+        if (state is CryptoWatchlistMessageReceived && chartData.isNotEmpty) {
           return SfCartesianChart(
             zoomPanBehavior: ZoomPanBehavior(
               enablePinching: true,

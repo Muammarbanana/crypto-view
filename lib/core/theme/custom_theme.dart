@@ -6,7 +6,7 @@ class CustomTheme {
     return ThemeData(
       appBarTheme: AppBarTheme(
         actionsIconTheme: const IconThemeData(color: Color(0xFF625DEE)),
-        backgroundColor: Colors.black26,
+        backgroundColor: Colors.black,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.white),
         titleTextStyle: GoogleFonts.urbanist(
@@ -27,6 +27,13 @@ class CustomTheme {
       primaryColor: const Color(0xFF625DEE),
       scaffoldBackgroundColor: const Color(0xff858484),
       textTheme: TextTheme(
+        titleLarge: GoogleFonts.urbanist(
+          textStyle: const TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         bodyLarge: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 18,
@@ -54,11 +61,12 @@ class CustomTheme {
     return ThemeData(
       appBarTheme: AppBarTheme(
         actionsIconTheme: const IconThemeData(color: Color(0xFF625DEE)),
+        backgroundColor: const Color(0xFF625DEE),
         centerTitle: false,
         titleTextStyle: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 24,
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -67,12 +75,20 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFF625DEE),
       ),
+      extensions: [],
       highlightColor: Colors.transparent,
       outlinedButtonTheme: const OutlinedButtonThemeData(),
       primaryColor: const Color(0xFF625DEE),
       scaffoldBackgroundColor: Colors.white,
       splashColor: Colors.transparent,
       textTheme: TextTheme(
+        titleLarge: GoogleFonts.urbanist(
+          textStyle: const TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         bodyLarge: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 18,
