@@ -93,7 +93,12 @@ class _WatchlistTableWidgetState extends State<WatchlistTableWidget> {
                       rows: symbolList.map((symbol) {
                         return DataRow(
                           cells: [
-                            DataCell(Text(symbol)),
+                            DataCell(
+                              Text(
+                                symbol,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
                             DataCell(
                               Text(
                                 symbol == 'BTC-USD'

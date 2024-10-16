@@ -82,6 +82,7 @@ class _CryptoChartWidgetState extends State<CryptoChartWidget> {
           builder: (context, state) {
             if (state is CryptoWatchlistMessageReceived &&
                 chartData.isNotEmpty) {
+              // Filter Asset that match with current symbol selection from cryptoChartCubit
               if (state.message.s == _cryptoChartCubit.state) {
                 dc = double.tryParse(state.message.dc.toString()) ?? 0.0;
                 p = double.tryParse(state.message.p.toString()) ?? 0.0;
@@ -130,6 +131,8 @@ class _CryptoChartWidgetState extends State<CryptoChartWidget> {
                     ),
                   ),
                   const SizedBox(height: 24),
+
+                  // Main Chart Asset Widget
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.3,
                     child: SfCartesianChart(
@@ -164,7 +167,8 @@ class _CryptoChartWidgetState extends State<CryptoChartWidget> {
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
                           borderColor: (((double.tryParse(
-                                          state.message.dc.toString())) ??
+                                        state.message.dc.toString(),
+                                      )) ??
                                       0.0) <
                                   0)
                               ? Theme.of(context).color.red
@@ -174,7 +178,8 @@ class _CryptoChartWidgetState extends State<CryptoChartWidget> {
                             end: Alignment.bottomCenter,
                             colors: <Color>[
                               if (((double.tryParse(
-                                          state.message.dc.toString())) ??
+                                        state.message.dc.toString(),
+                                      )) ??
                                       0.0) <
                                   0)
                                 Theme.of(context).color.pink

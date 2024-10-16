@@ -5,7 +5,7 @@ class CustomTheme {
   static ThemeData getDark() {
     return ThemeData(
       appBarTheme: AppBarTheme(
-        actionsIconTheme: const IconThemeData(color: Color(0xFF625DEE)),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.black,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -25,7 +25,7 @@ class CustomTheme {
       ),
       highlightColor: Colors.transparent,
       primaryColor: const Color(0xFF625DEE),
-      scaffoldBackgroundColor: const Color(0xff858484),
+      scaffoldBackgroundColor: const Color(0xFF0A0A0A),
       textTheme: TextTheme(
         titleLarge: GoogleFonts.urbanist(
           textStyle: const TextStyle(
@@ -37,19 +37,19 @@ class CustomTheme {
         bodyLarge: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 18,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         bodyMedium: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 16,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         bodySmall: GoogleFonts.urbanist(
           textStyle: const TextStyle(
             fontSize: 14,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),
@@ -60,7 +60,7 @@ class CustomTheme {
   static ThemeData getLight() {
     return ThemeData(
       appBarTheme: AppBarTheme(
-        actionsIconTheme: const IconThemeData(color: Color(0xFF625DEE)),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color(0xFF625DEE),
         centerTitle: false,
         titleTextStyle: GoogleFonts.urbanist(
