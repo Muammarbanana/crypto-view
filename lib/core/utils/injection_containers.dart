@@ -7,12 +7,12 @@ final di = GetIt.instance;
 void init() {
   di
     // Remote Datasources
-    ..registerLazySingleton<CryptoWatchlistRemoteDatasource>(
+    ..registerFactory<CryptoWatchlistRemoteDatasource>(
       CryptoWatchlistRemoteDatasource.new,
     )
 
     // Repository
-    ..registerLazySingleton<CryptoWatchlistRepository>(
+    ..registerFactory<CryptoWatchlistRepository>(
       () => CryptoWatchlistRepositoryImpl(
         dataSource: di(),
       ),
@@ -24,7 +24,10 @@ void init() {
         repository: di(),
       ),
     )
-    ..registerFactory(
+    ..registerLazySingleton(
+      CryptoChartCubit.new,
+    )
+    ..registerLazySingleton(
       CustomThemeCubit.new,
     );
 }

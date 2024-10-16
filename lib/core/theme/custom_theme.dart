@@ -75,7 +75,6 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFF625DEE),
       ),
-      extensions: [],
       highlightColor: Colors.transparent,
       outlinedButtonTheme: const OutlinedButtonThemeData(),
       primaryColor: const Color(0xFF625DEE),

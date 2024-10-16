@@ -1,5 +1,4 @@
 import 'package:crypto_view/core/core.dart';
-import 'package:crypto_view/core/utils/injection_containers.dart';
 import 'package:crypto_view/features/features.dart';
 import 'package:crypto_view/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di<CustomThemeCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di<CustomThemeCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => di<CryptoChartCubit>(),
+        ),
+      ],
       child: BlocBuilder<CustomThemeCubit, bool>(
         builder: (context, state) {
           return MaterialApp(

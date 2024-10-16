@@ -30,6 +30,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   // Add cross-flavor configuration here
   di.init();
+  di.di.allowReassignment = true;
 
   runApp(await builder());
 }

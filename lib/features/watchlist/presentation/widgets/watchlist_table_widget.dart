@@ -38,143 +38,134 @@ class _WatchlistTableWidgetState extends State<WatchlistTableWidget> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: 12),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: constraints.maxWidth),
-                child: BlocProvider(
-                  create: (context) => _cryptoWatchlistBloc,
-                  child:
-                      BlocConsumer<CryptoWatchlistBloc, CryptoWatchlistState>(
-                    listener: (context, state) {
-                      if (state is CryptoWatchlistError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: ${state.error}')),
-                        );
-                      }
-                      if (state is CryptoWatchlistConnected) {
-                        _cryptoWatchlistBloc.add(
-                          CryptoWatchlistSendMessageTriggered(
-                            WebSocketMessageParams(
-                              action: 'subscribe',
-                              symbols: symbolList,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is CryptoWatchlistConnecting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is CryptoWatchlistMessageReceived) {
-                        if (state.message.s == symbolList[0]) {
-                          _btcResponse = state.message;
-                        } else {
-                          _ethResponse = state.message;
-                        }
+        BlocProvider(
+          create: (context) => _cryptoWatchlistBloc,
+          child: BlocConsumer<CryptoWatchlistBloc, CryptoWatchlistState>(
+            listener: (context, state) {
+              if (state is CryptoWatchlistError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: ${state.error}')),
+                );
+              }
+              if (state is CryptoWatchlistConnected) {
+                _cryptoWatchlistBloc.add(
+                  CryptoWatchlistSendMessageTriggered(
+                    WebSocketMessageParams(
+                      action: 'subscribe',
+                      symbols: symbolList,
+                    ),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is CryptoWatchlistConnecting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is CryptoWatchlistMessageReceived) {
+                if (state.message.s == symbolList[0]) {
+                  _btcResponse = state.message;
+                } else {
+                  _ethResponse = state.message;
+                }
 
-                        return DataTable(
-                          columnSpacing: 12,
-                          columns: const [
-                            DataColumn(
-                              label: Text('Symbol'),
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width,
+                    ),
+                    child: DataTable(
+                      columnSpacing: 12,
+                      columns: const [
+                        DataColumn(
+                          label: Text('Symbol'),
+                        ),
+                        DataColumn(
+                          label: Text('Last'),
+                        ),
+                        DataColumn(
+                          label: Text('Chg'),
+                        ),
+                        DataColumn(
+                          label: Text('Chg%'),
+                        ),
+                      ],
+                      rows: symbolList.map((symbol) {
+                        return DataRow(
+                          cells: [
+                            DataCell(Text(symbol)),
+                            DataCell(
+                              Text(
+                                symbol == 'BTC-USD'
+                                    ? '${double.tryParse('${_btcResponse?.p}')?.toStringAsFixed(2) ?? 0}'
+                                    : '${double.tryParse('${_ethResponse?.p}')?.toStringAsFixed(2) ?? 0}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: (double.tryParse(
+                                                    '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
+                                                  ) ??
+                                                  0) >
+                                              0
+                                          ? Theme.of(context).color.darkGreen
+                                          : Theme.of(context).color.red,
+                                    ),
+                              ),
                             ),
-                            DataColumn(
-                              label: Text('Last'),
+                            DataCell(
+                              Text(
+                                symbol == 'BTC-USD'
+                                    ? '${double.tryParse('${_btcResponse?.dd}')?.toStringAsFixed(2) ?? 0}'
+                                    : '${double.tryParse('${_ethResponse?.dd}')?.toStringAsFixed(2) ?? 0}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: (double.tryParse(
+                                                    '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
+                                                  ) ??
+                                                  0) >
+                                              0
+                                          ? Theme.of(context).color.darkGreen
+                                          : Theme.of(context).color.red,
+                                    ),
+                              ),
                             ),
-                            DataColumn(
-                              label: Text('Chg'),
-                            ),
-                            DataColumn(
-                              label: Text('Chg%'),
+                            DataCell(
+                              Text(
+                                symbol == 'BTC-USD'
+                                    ? '${double.tryParse('${_btcResponse?.dc}')?.toStringAsFixed(2) ?? 0}%'
+                                    : '${double.tryParse('${_ethResponse?.dc}')?.toStringAsFixed(2) ?? 0}%',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: (double.tryParse(
+                                                    '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
+                                                  ) ??
+                                                  0) >
+                                              0
+                                          ? Theme.of(context).color.darkGreen
+                                          : Theme.of(context).color.red,
+                                    ),
+                              ),
                             ),
                           ],
-                          rows: symbolList.map((symbol) {
-                            return DataRow(
-                              cells: [
-                                DataCell(Text(symbol)),
-                                DataCell(
-                                  Text(
-                                    symbol == 'BTC-USD'
-                                        ? '${double.tryParse('${_btcResponse?.p}')?.toStringAsFixed(2) ?? 0}'
-                                        : '${double.tryParse('${_ethResponse?.p}')?.toStringAsFixed(2) ?? 0}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: (double.tryParse(
-                                                        '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
-                                                      ) ??
-                                                      0) >
-                                                  0
-                                              ? Theme.of(context)
-                                                  .color
-                                                  .darkGreen
-                                              : Theme.of(context).color.red,
-                                        ),
-                                  ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    symbol == 'BTC-USD'
-                                        ? '${double.tryParse('${_btcResponse?.dd}')?.toStringAsFixed(2) ?? 0}'
-                                        : '${double.tryParse('${_ethResponse?.dd}')?.toStringAsFixed(2) ?? 0}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: (double.tryParse(
-                                                        '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
-                                                      ) ??
-                                                      0) >
-                                                  0
-                                              ? Theme.of(context)
-                                                  .color
-                                                  .darkGreen
-                                              : Theme.of(context).color.red,
-                                        ),
-                                  ),
-                                ),
-                                DataCell(
-                                  Text(
-                                    symbol == 'BTC-USD'
-                                        ? '${double.tryParse('${_btcResponse?.dc}')?.toStringAsFixed(2) ?? 0}%'
-                                        : '${double.tryParse('${_ethResponse?.dc}')?.toStringAsFixed(2) ?? 0}%',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: (double.tryParse(
-                                                        '${symbol == 'BTC-USD' ? _btcResponse?.dc : _ethResponse?.dc}',
-                                                      ) ??
-                                                      0) >
-                                                  0
-                                              ? Theme.of(context)
-                                                  .color
-                                                  .darkGreen
-                                              : Theme.of(context).color.red,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }).toList(),
                         );
-                      } else if (state is CryptoWatchlistError) {
-                        return Center(
-                          child: Text('Error: ${state.error}'),
-                        );
-                      } else {
-                        return const SizedBox.shrink();
-                      }
-                    },
+                      }).toList(),
+                    ),
                   ),
-                ),
-              ),
-            );
-          },
+                );
+              } else if (state is CryptoWatchlistError) {
+                return Center(
+                  child: Text('Error: ${state.error}'),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
         ),
       ],
     );

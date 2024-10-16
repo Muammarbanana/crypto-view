@@ -38,6 +38,7 @@ class CryptoWatchlistBloc
     CryptoWatchlistSendMessageTriggered event,
     Emitter<CryptoWatchlistState> emit,
   ) {
+    emit(CryptoWatchlistConnecting());
     repository.sendMessageToWebSocket(event.message);
   }
 
